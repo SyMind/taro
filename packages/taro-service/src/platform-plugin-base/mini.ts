@@ -106,7 +106,17 @@ ${exampleCommand}`))
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
 
-    const runnerPkg = this.compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
+    let runnerPkg: string
+    switch (this.compiler) {
+      case 'vite':
+        runnerPkg = '@tarojs/vite-runner'
+        break
+      case 'rspack':
+        runnerPkg = '@tarojs/rspack-runner'
+        break
+      default:
+        runnerPkg = '@tarojs/webpack5-runner'
+    }
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
 
